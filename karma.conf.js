@@ -4,7 +4,7 @@ module.exports = function(config) {
   config.set({
     autowatch: true,
     basePath: __dirname,
-    browsers: ['Chrome'],
+    browsers: [travis ? 'PhantomJS' : 'Chrome'],
     coverageReporter: {
       reporters: [
         {
