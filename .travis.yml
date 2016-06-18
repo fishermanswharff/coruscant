@@ -1,11 +1,12 @@
 language: node_js
+sudo: required
 node_js:
 - '5.0'
 before_script:
 - npm install -g gulp
 script: NODE_ENV=test gulp test --type=test
 before_deploy:
-- npm run build-prod
+- sudo npm run build-prod
 deploy:
   provider: s3
   access_key_id: AKIAJM4PZPNCWDEVKSPA
