@@ -6,7 +6,7 @@ before_script:
 - npm install -g gulp
 script: NODE_ENV=test gulp test --type=test
 before_deploy:
-- sudo $(which npm) run build-prod
+- NODE_ENV=production gulp productionBuild --type=production
 deploy:
   provider: s3
   access_key_id: AKIAJM4PZPNCWDEVKSPA
