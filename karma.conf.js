@@ -22,7 +22,7 @@ module.exports = function(config) {
     // reporters: ['nyan', 'spec', 'failed', 'coverage'],
     reporters: ['nyan','failed','coverage'],
     singleRun: false,
-    plugins: ['karma-phantomjs-launcher'],
+    plugins: ['karma-jasmine', 'karma-phantomjs-launcher'],
     preprocessors: {
       'spec/**/*.spec.js': ['webpack'],
       'spec/support/*.js': ['webpack']
