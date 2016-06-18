@@ -4,7 +4,7 @@ node_js:
 before_script:
 - npm install -g gulp
 script: NODE_ENV=test gulp test --type=test
-after_script:
+before_deploy:
 - npm run build-prod
 deploy:
   provider: s3
