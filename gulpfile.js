@@ -19,7 +19,7 @@ const path = require('path'),
   shell = require('gulp-shell'),
   Server = require('karma').Server,
   uglify = require('gulp-uglify'),
-  webpack = require('gulp-webpack'),
+  webpack = require('webpack-stream'),
   zip = require('gulp-zip');
 
 const environment = $.util.env.type || 'development';
@@ -49,7 +49,7 @@ const paths = {
 gulp.task('test', function (done) {
   new Server({
     configFile: __dirname + '/karma.conf.js',
-    singleRun: false
+    singleRun: true
   }, done).start();
 });
 
@@ -76,14 +76,8 @@ gulp.task('clean', function() {
 
 gulp.task('scripts', function(){
   return gulp.src(webpackConfig.entry)
-    .on('error', function(error) {
-      console.log('ERROR: ' + error.toString());
-      this.emit("end");
-    })
-    .pipe($.webpack(webpackConfig))
-    .pipe($.uglify())
-    .pipe(gulp.dest(paths.dist.js))
-    .pipe(reload({ stream:true }));
+    .pipe(webpack())
+    .pipe(gulp.dest(paths.dist.js));
 });
 
 gulp.task('minify-html', function () {
@@ -105,4 +99,51 @@ gulp.task('watch', function() {
   gulp.watch(paths.spec.files, ['test']);
 });
 
+gulp.task('awsS3', () => {
+  let credentials = new AWS.SharedIniFileCredentials({profile: 'personal'});
+  AWS.config.credentials = credentials;
+  AWS.config.update({region: 'us-west-2'});
+  let s3 = new AWS.S3();
+  s3.putObject({
+    Bucket: 'temperature-converter',
+    Key: 'index.html',
+    Body: fs.readFileSync(paths.dist.root + '/index.html'),
+    ContentType: 'text/html'
+  }, (err, data) => {
+    if(err){
+      gutil.log('you did it wrong', err.stack);
+    } else {
+      gutil.log('yay!!! you did it', data);
+    }
+  });
+  s3.putObject({
+    Bucket: 'temperature-converter',
+    Key: 'css/main.css',
+    Body: fs.readFileSync(paths.dist.css + '/main.css'),
+    ContentType: 'text/css'
+  }, (err, data) => {
+    if(err){
+      gutil.log('you did it wrong', err.stack);
+    } else {
+      gutil.log('yay!!! you did it', data);
+    }
+  });
+  let jsFiles = fs.readdirSync(paths.dist.js);
+  jsFiles.forEach(file => {
+    s3.putObject({
+      Bucket: 'temperature-converter',
+      Key: `js/${file}`,
+      Body: fs.readFileSync(paths.dist.js + `/${file}`),
+      ContentType: 'text/javascript'
+    }, (err, data) => {
+    if(err){
+      gutil.log('you did it wrong', err.stack);
+    } else {
+      gutil.log('yay!!! you did it', data);
+    }
+  });
+  });
+});
+
 gulp.task('default', ['scripts', 'sass', 'minify-html']);
+gulp.task('productionBuild', ['clean', 'scripts', 'sass', 'minify-html', 'awsS3']);

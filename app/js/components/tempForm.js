@@ -77,6 +77,7 @@ export default class TempForm extends BaseComponent {
           numberChangeHandler={this.handleInputEvent}
           formatChangeHandler={this.handleSelectEvent}
           stateKey='input'
+          ref='input'
         />
         <TempInput
           temp={this.state.output}
@@ -84,6 +85,7 @@ export default class TempForm extends BaseComponent {
           numberChangeHandler={this.handleInputEvent}
           formatChangeHandler={this.handleSelectEvent}
           stateKey='output'
+          ref='output'
         />
       </form>
     );

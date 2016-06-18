@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test gulp test --type=test",
-    "dev": "NODE_ENV=development gulp serve --port 8888 --type=development"
+    "dev": "NODE_ENV=development gulp serve --port 8888 --type=development",
+    "prod-build": "NODE_ENV=production gulp productionBuild --type=production"
   },
   "repository": {
     "type": "git",
@@ -66,6 +67,7 @@
     "karma-spec-reporter": "0.0.26",
     "karma-webpack": "^1.7.0",
     "run-sequence": "^1.1.5",
+    "s3": "^4.4.0",
     "shell": "^0.3.2",
     "uglify": "^0.1.5",
     "webpack": "^1.13.1",
