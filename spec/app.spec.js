@@ -4,6 +4,7 @@ import TestUtils from 'react-addons-test-utils'
 import ReactDOM from 'react-dom';
 import TempForm from '../app/js/components/tempForm';
 import TempInput from '../app/js/components/tempInput';
+var Promise = require('es6-promise').Promise;
 
 describe('Temperature Converter', () => {
   let utils = TestUtils;
