@@ -146,4 +146,4 @@ gulp.task('awsS3', () => {
 });
 
 gulp.task('default', ['scripts', 'sass', 'minify-html']);
-gulp.task('productionBuild', ['clean', 'scripts', 'sass', 'minify-html', 'awsS3']);
+gulp.task('productionBuild', ['clean', 'scripts', 'sass', 'minify-html']);

@@ -3,7 +3,9 @@ node_js:
 - '5.0'
 before_script:
 - npm install -g gulp
-script: gulp test
+script: NODE_ENV=test gulp test --type=test
+after_script:
+- npm run build-prod
 deploy:
   provider: s3
   access_key_id: AKIAJM4PZPNCWDEVKSPA
