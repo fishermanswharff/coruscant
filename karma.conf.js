@@ -4,7 +4,7 @@ module.exports = function(config) {
   config.set({
     autowatch: true,
     basePath: __dirname,
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
     coverageReporter: {
       reporters: [
         {
@@ -49,12 +49,7 @@ module.exports = function(config) {
       Buffer: true,
       __filename: "mock",
       __dirname: "mock",
-      setImmediate: true,
-      node: {
-        fs: 'empty',
-        net: 'empty',
-        tls: 'empty'
-      }
+      setImmediate: true
     },
     webpackMiddleware: {
       noInfo: true

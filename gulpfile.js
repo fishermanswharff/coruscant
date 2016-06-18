@@ -56,7 +56,7 @@ gulp.task('test', function (done) {
 gulp.task('serve',['clean','minify-html','sass','scripts','watch'], function() {
   browserSync.init({
     server: {
-      baseDir: paths.source.root,
+      baseDir: paths.dist.root,
       index: 'index.html',
       middleware: [ historyApiFallback() ],
     },

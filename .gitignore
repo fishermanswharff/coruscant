@@ -27,3 +27,4 @@ _dev
 npm-debug.log
 node_modules
 server_old
+dist/
