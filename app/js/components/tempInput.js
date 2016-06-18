@@ -23,6 +23,7 @@ export default class TempInput extends BaseComponent {
         <select value={this.props.source} onChange={this.onSelectHandler}>
           <option value='fahrenheit'>Fahrenheit</option>
           <option value='celsius'>Celsius</option>
+          <option value='kelvin'>Kelvin</option>
         </select>
       </div>
     )

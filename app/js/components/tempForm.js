@@ -15,28 +15,45 @@ export default class TempForm extends BaseComponent {
   }
 
   handleInputEvent(newValue, object){
-    this.setState({ [`${object.props.stateKey}`]: newValue });
-    this.convertTemperature({source: object.props.source, stateKey: object.props.stateKey === 'input' ? 'output' : 'input', newValue: newValue});
+    this.setState({
+      [`${object.props.stateKey}`]: newValue
+    });
+    this.convertTemperature({
+      sourceFormat: object.props.source,
+      outFormat: this.state.outputFormat,
+      stateKey: object.props.stateKey === 'input' ? 'output' : 'input',
+      newValue: newValue
+    });
   }
 
   handleSelectEvent(newValue, object){
-    let stateKey = object.props.stateKey;
-    let secondaryStateKey = stateKey === 'input' ? 'output' : 'input';
+    let stateKey = object.props.stateKey,
+        secondaryStateKey = stateKey === 'input' ? 'output' : 'input',
+        secondaryFormat = this.state[`${secondaryStateKey}Format`] === newValue ? this.props.formats.find(element => { return element !== newValue }) : this.state[`${secondaryStateKey}Format`]
+
     this.setState({
       [`${stateKey}Format`]: newValue,
-      [`${secondaryStateKey}Format`]: this.state[`${secondaryStateKey}Format`] === newValue ? this.props.formats.find(element => { return element !== newValue }) : this.state[`${secondaryStateKey}Format`]
+      [`${secondaryStateKey}Format`]: secondaryFormat
     });
-    this.convertTemperature({ source: newValue, stateKey: secondaryStateKey, newValue: object.props.temp });
+
+    this.convertTemperature({
+      sourceFormat: newValue,
+      outFormat: secondaryFormat,
+      stateKey: secondaryStateKey,
+      newValue: object.props.temp
+    });
   }
 
   convertTemperature(options){
-    switch(options.source){
+    switch(options.sourceFormat){
       case('fahrenheit'):
         this.setState({[`${options.stateKey}`]: ((options.newValue - this.props.fahrenheitConstant) * 5) / 9});
       break;
       case('celsius'):
         this.setState({[`${options.stateKey}`]: ((options.newValue * 9) / 5) + this.props.fahrenheitConstant});
       break;
+      case('kelvin'):
+        console.log('>>>>>>>>>>>>>> converting kelvin to: ', options.outFormat);
       default:
       break;
     }
@@ -76,5 +93,5 @@ TempForm.defaultProps = {
   kelvinConstant: 273.15,
   input: 32,
   output: 0,
-  formats: ['fahrenheit', 'celsius']
+  formats: ['fahrenheit', 'celsius', 'kelvin']
 };
