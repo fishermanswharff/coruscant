@@ -11,7 +11,6 @@ export default class TempConverterApp extends BaseComponent {
   render(){
     return (
       <section>
-        <h1>Hello world</h1>
         {this.props.children}
       </section>
     )

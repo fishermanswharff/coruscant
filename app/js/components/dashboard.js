@@ -1,5 +1,6 @@
 import React from 'react';
 import BaseComponent from './baseComponent';
+import TempForm from './tempForm';
 
 export default class TempConverterApp extends BaseComponent {
   constructor(props){
@@ -10,7 +11,9 @@ export default class TempConverterApp extends BaseComponent {
 
   render(){
     return (
-      <div>dashboard</div>
+      <div>
+        <TempForm/>
+      </div>
     )
   }
 }

@@ -99,7 +99,7 @@ gulp.task('sass', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(paths.source.scripts, ['scripts']);
+  gulp.watch(paths.source.js, ['scripts']);
   gulp.watch(paths.source.css, ['sass']);
   gulp.watch(paths.source.html, ['minify-html']);
   gulp.watch(paths.spec.files, ['test']);
