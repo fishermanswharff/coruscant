@@ -1,6 +1,7 @@
 import React from 'react';
 import BaseComponent from './baseComponent';
-import TempInput from './TempInput';
+import TempInput from './tempInput';
+import TempConverter from '../modules/tempConverter';
 
 export default class TempForm extends BaseComponent {
   constructor(props){
@@ -15,12 +16,13 @@ export default class TempForm extends BaseComponent {
   }
 
   handleInputEvent(newValue, object){
+    let secondaryStateKey = object.props.stateKey === 'input' ? 'output' : 'input';
     this.setState({
       [`${object.props.stateKey}`]: newValue
     });
     this.convertTemperature({
-      sourceFormat: object.props.source,
-      outFormat: this.state.outputFormat,
+      inputFormat: object.props.source,
+      outputFormat: this.state[`${secondaryStateKey}Format`],
       stateKey: object.props.stateKey === 'input' ? 'output' : 'input',
       newValue: newValue
     });
@@ -37,23 +39,30 @@ export default class TempForm extends BaseComponent {
     });
 
     this.convertTemperature({
-      sourceFormat: newValue,
-      outFormat: secondaryFormat,
+      inputFormat: newValue,
+      outputFormat: secondaryFormat,
       stateKey: secondaryStateKey,
       newValue: object.props.temp
     });
   }
 
   convertTemperature(options){
-    switch(options.sourceFormat){
+    let converter = new TempConverter();
+    switch(options.inputFormat){
       case('fahrenheit'):
-        this.setState({[`${options.stateKey}`]: ((options.newValue - this.props.fahrenheitConstant) * 5) / 9});
+        converter.fahrenheitTo(options.outputFormat, options.newValue).then(newValue => {
+          this.setState({ [`${options.stateKey}`]: newValue });
+        });
       break;
       case('celsius'):
-        this.setState({[`${options.stateKey}`]: ((options.newValue * 9) / 5) + this.props.fahrenheitConstant});
+        converter.celsiusTo(options.outputFormat, options.newValue).then(newValue => {
+          this.setState({ [`${options.stateKey}`]: newValue });
+        });
       break;
       case('kelvin'):
-        console.log('>>>>>>>>>>>>>> converting kelvin to: ', options.outFormat);
+        converter.kelvinTo(options.outputFormat, options.newValue).then(newValue => {
+          this.setState({ [`${options.stateKey}`]: newValue });
+        });
       default:
       break;
     }

@@ -6,7 +6,6 @@ export default class TempConverterApp extends BaseComponent {
   constructor(props){
     super(props);
     this.state = {};
-    this.bind();
   }
 
   render(){
