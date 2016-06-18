@@ -19,14 +19,13 @@ module.exports = function(config) {
     },
     files: ['spec/**/*.spec.js'],
     frameworks: ['jasmine'],
-    reporters: ['nyan'],
+    reporters: ['progress'],
     singleRun: true,
     plugins: [
       'karma-jasmine',
       'karma-phantomjs-launcher',
       'karma-chrome-launcher',
-      'karma-webpack',
-      'karma-nyan-reporter'
+      'karma-webpack'
     ],
     preprocessors: {
       'spec/**/*.spec.js': ['webpack'],
