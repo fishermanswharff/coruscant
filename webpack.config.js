@@ -1,20 +1,19 @@
 var webpack = require('webpack'),
     path = require('path'),
     paths = {
-      mainScript: '/app/js/app.js',
-      testScript: '/spec/index.js',
-      scripts: '/app/js/**/*.js',
-      destroot: '/dist',
-      destjs: '/dist/js',
+      mainScript: `${__dirname}/app/js/app.js`,
+      scripts: `${__dirname}/app/js/**/*.js`,
+      destroot: `${__dirname}/dist`,
+      destjs: `${__dirname}/dist/js`,
     };
 
 module.exports.getConfig = function(type){
+  console.log('>>>>>>>>>>>>>>>>>>>>> webpackConfig environment: ', type);
   var isDev = type === 'development';
-  console.log('>>>>>>>> webpack config env: ', type);
   var config = {
-    entry: __dirname + paths.mainScript,
+    entry: paths.mainScript,
     output: {
-      path: __dirname,
+      path: paths.destjs,
       filename: 'bundle.js'
     },
     module: {
@@ -23,28 +22,35 @@ module.exports.getConfig = function(type){
           test: /\.jsx$/,
           loader: 'babel',
           exclude: /node_modules/,
-          query: { presets: ['react', 'es2015'] }
+          query: {
+            presets: ['react', 'es2015']
+          }
         },
         {
           test: /\.js$/,
           exclude: /node_modules/,
           loader: 'babel-loader',
-          query: { cacheDirectory: true, presets: ['react', 'es2015'] }
+          query: {
+            cacheDirectory: true,
+            presets: ['react', 'es2015']
+          }
         }
       ],
-      noParse: /node_modules\/quill\/dist/
     },
     plugins: [
+      new webpack.optimize.UglifyJsPlugin({
+        minimize: true
+      }),
       new webpack.DefinePlugin({
         'process.env': {
-          'NODE_ENV': JSON.stringify('production')
+          'NODE_ENV': JSON.stringify(type)
         }
       })
     ],
     resolve: {
       extensions: ['', '.js', '.jsx']
     }
-  }
+  };
   if(isDev) {
     config.devtool = 'eval';
   }

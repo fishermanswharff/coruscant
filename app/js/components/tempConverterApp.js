@@ -11,6 +11,9 @@ export default class TempConverterApp extends BaseComponent {
   render(){
     return (
       <section>
+        <header className='header'>
+          <h3>Temperature Converter:</h3>
+        </header>
         {this.props.children}
       </section>
     )

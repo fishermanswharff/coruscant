@@ -43,7 +43,13 @@ const paths = {
     files: `${__dirname}/spec/**/*.spec.js`,
     support: `${__dirname}/spec/support`
   },
-  tmp: [`${__dirname}/.module-cache`,`${__dirname}/.sass-cache`,`${__dirname}/.tmp`]
+  tmp: [
+  `${__dirname}/.module-cache`,
+  `${__dirname}/.sass-cache`,
+  `${__dirname}/.tmp`,
+  `${__dirname}/dist/js`,
+  `${__dirname}/dist/css`
+  ]
 }
 
 gulp.task('test', function (done) {
@@ -65,7 +71,7 @@ gulp.task('serve',['clean','minify-html','sass','scripts','watch'], function() {
       port: 8081
     },
   });
-  gulp.watch([paths.source.html, paths.source.css, paths.source.js], {cwd: 'app/build'}, reload);
+  gulp.watch([`${paths.dist}/index.html`, paths.dist.css, paths.dist.js], {cwd: `${__dirname}/dist`}, reload);
 });
 
 gulp.task('clean', function() {
@@ -76,8 +82,14 @@ gulp.task('clean', function() {
 
 gulp.task('scripts', function(){
   return gulp.src(webpackConfig.entry)
-    .pipe(webpack())
-    .pipe(gulp.dest(paths.dist.js));
+    .on('error', (error) => {
+      gutil.log('ERROR: ' + error.toString());
+      this.emit("end");
+    })
+    .pipe(webpack(webpackConfig))
+    .pipe(uglify())
+    .pipe(gulp.dest(paths.dist.js))
+    .pipe(reload({ stream:true }));
 });
 
 gulp.task('minify-html', function () {

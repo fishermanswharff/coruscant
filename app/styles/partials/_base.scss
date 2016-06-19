@@ -1,0 +1,76 @@
+body {
+  background-color: #eee;
+}
+
+.header {
+  @include defaults();
+  padding: 0 1em;
+  margin: .5em 0;
+
+  h3 {
+    text-align: center;
+  }
+}
+
+form.temp-converter {
+  @include box-shadow(0,0,2px,0,$black);
+  @include defaults();
+  @include flexbox();
+  @include flex-flow(row);
+
+  background: $white;
+  margin: .5em;
+  padding: .5em;
+}
+
+.form-group {
+  @include defaults();
+  @include flexbox();
+  @include flex-flow(row, wrap);
+  @include flex-justify(space-around);
+
+  font-size: $large-font-size;
+  margin: .5em 0;
+  padding: 0 1em;
+  width: 100%;
+
+  input[type=number],
+  select {
+    @include flex(1);
+    width: 100%;
+  }
+
+  input[type=number] {
+    font-size: 2em;
+    line-height: 1;
+    text-align: right;
+  }
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: #ccc;
+    border-radius: 2px;
+    width: 100%;
+    margin: 0;
+    padding: 8px;
+    border: 1px solid grey;
+
+    &:after {
+      content: '^';
+      display: block;
+      position: relative;
+    }
+  }
+}
+
+footer {
+  @include defaults();
+  @include flexbox();
+  @include flex-flow(row, wrap);
+
+  bottom: 0;
+  padding: 1em;
+  position: fixed;
+  width: 100%;
+}

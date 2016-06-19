@@ -10,7 +10,7 @@ export default class TempConverterApp extends BaseComponent {
 
   render(){
     return (
-      <div>
+      <div className='container'>
         <TempForm/>
       </div>
     )

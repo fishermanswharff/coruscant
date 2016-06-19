@@ -1,8 +1,5 @@
-body {
-  background-color: #fff;
-}
-
-.form-group {
-  input[type=number],
-  select {}
-}
+@import 'modules/mixins',
+        'modules/variables';
+@import 'vendor/normalize';
+@import 'partials/base',
+        'utilities/responsive';

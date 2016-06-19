@@ -70,7 +70,7 @@ export default class TempForm extends BaseComponent {
 
   render(){
     return(
-      <form>
+      <form className='temp-converter'>
         <TempInput
           temp={this.state.input}
           source={this.state.inputFormat}
