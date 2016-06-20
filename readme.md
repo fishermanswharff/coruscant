@@ -14,13 +14,15 @@ Feel free to use your favorite javascript/css libraries. Please submit your sour
 ```bash
 # dependencies:
 # >= Node 5
-# gulp-cli installed globally
 
 $ npm install
 $ npm run dev
 
 # to run tests:
 $ npm test
+
+# to build a production build
+$ npm run prod-build
 ```
 
 [ci-image]: https://travis-ci.org/fishermanswharff/coruscant.svg?branch=master
